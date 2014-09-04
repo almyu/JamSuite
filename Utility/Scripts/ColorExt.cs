@@ -18,6 +18,10 @@ public static class ColorExt {
         return new Color(clr.r, clr.g, clr.b, a);
     }
 
+    public static string ToHexString(this Color clr) {
+        return ((Color32) clr).ToHexString();
+    }
+
 
     public static Color32 ReplaceR(this Color32 clr, byte r) {
         return new Color32(r, clr.g, clr.b, clr.a);
@@ -33,5 +37,9 @@ public static class ColorExt {
 
     public static Color32 ReplaceA(this Color32 clr, byte a) {
         return new Color(clr.r, clr.g, clr.b, a);
+    }
+
+    public static string ToHexString(this Color32 clr) {
+        return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", clr.r, clr.g, clr.b, clr.a);
     }
 }
