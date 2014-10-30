@@ -22,7 +22,7 @@ public static class ColorExt {
         float g = 0.0f;
         float b = 0.0f;
         
-        switch((int)Mathf.Floor(sector)) {
+        switch(Mathf.FloorToInt(sector)) {
             case 0: r = chroma; g = x;      break;
             case 1: r = x;      g = chroma; break;
             case 2: g = chroma; b = x;      break;
