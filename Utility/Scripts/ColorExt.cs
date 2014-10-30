@@ -22,7 +22,7 @@ public static class ColorExt {
         float g = 0.0f;
         float b = 0.0f;
         
-        switch(Mathf.FloorToInt(sector)) {
+        switch (Mathf.FloorToInt(sector)) {
             case 0: r = chroma; g = x;      break;
             case 1: r = x;      g = chroma; break;
             case 2: g = chroma; b = x;      break;
@@ -34,7 +34,7 @@ public static class ColorExt {
         float diff = v - chroma;
         return new Color(Mathf.Clamp01(r + diff), Mathf.Clamp01(g + diff), Mathf.Clamp01(b + diff), Mathf.Clamp01(a));
     }
-    public static Color32 FromHSV(byte h, byte s, byte v, byte a) { return (Color32) ColorExt.FromHSV(h / 255.0f, s / 255.0f, v / 255.0f, a / 255.0f); }
+    public static Color32 FromHSV(byte h, byte s, byte v, byte a) { return (Color32) FromHSV(h / 255.0f, s / 255.0f, v / 255.0f, a / 255.0f); }
 
     public static string ToHexString(this Color clr) { return ((Color32) clr).ToHexString(); }
     public static string ToHexString(this Color32 clr) { return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", clr.r, clr.g, clr.b, clr.a); }
