@@ -16,7 +16,7 @@ public static class ColorExt {
         float sector = h * 6.0f;
         
         float chroma = v * s;
-        float x = chroma * (1.0f - Mathf.Abs(Mathf.Repeat(sector,2.0f) - 1.0f));
+        float x = chroma * (1.0f - Mathf.Abs(Mathf.Repeat(sector, 2.0f) - 1.0f));
         
         float r = 0.0f;
         float g = 0.0f;
