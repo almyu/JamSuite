@@ -3,11 +3,11 @@ using UnityEngine.Events;
 
 public class EventMouse : MonoBehaviour {
     
-    public UnityEvent onMouseEnter = null;
-    public UnityEvent onMouseExit = null;
-    public UnityEvent onMouseOver = null;
-    public UnityEvent onMouseDown = null;
-    public UnityEvent onMouseUp = null;
+    public UnityEvent onMouseEnter;
+    public UnityEvent onMouseExit;
+    public UnityEvent onMouseOver;
+    public UnityEvent onMouseDown;
+    public UnityEvent onMouseUp;
     
     private void OnMouseEnter() { onMouseEnter.Invoke(); }
     private void OnMouseExit() { onMouseExit.Invoke(); }

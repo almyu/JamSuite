@@ -3,17 +3,15 @@ using UnityEngine.Events;
 
 public class EventTrigger : MonoBehaviour {
     
-    public UnityEvent onTriggerEnter = null;
-    public UnityEvent onTriggerExit = null;
-    public UnityEvent onTriggerStay = null;
+    public UnityEvent onTriggerEnter;
+    public UnityEvent onTriggerExit;
+    public UnityEvent onTriggerStay;
     
-    public string[] tagsExcluded = null;
+    public string[] tagsExcluded;
     
     private void FilterAndInvoke(Collider collider, UnityEvent colliderEvent) {
-        if (tagsExcluded != null) {
-            for (int i = 0; i < tagsExcluded.Length; ++i) {
-                if (collider.gameObject.tag == tagsExcluded[i]) return;
-            }
+        for (int i = 0; i < tagsExcluded.Length; ++i) {
+            if (collider.gameObject.tag == tagsExcluded[i]) return;
         }
         
         colliderEvent.Invoke();
