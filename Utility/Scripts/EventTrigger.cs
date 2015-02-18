@@ -10,9 +10,9 @@ public class EventTrigger : MonoBehaviour {
     public string[] tagsExcluded = null;
     
     private void FilterAndInvoke(Collider collider, UnityEvent colliderEvent) {
-        if(tagsExcluded != null) {
-            for(int i = 0; i < tagsExcluded.Length; ++i) {
-                if(collider.gameObject.tag == tagsExcluded[i]) return;
+        if (tagsExcluded != null) {
+            for (int i = 0; i < tagsExcluded.Length; ++i) {
+                if (collider.gameObject.tag == tagsExcluded[i]) return;
             }
         }
         
