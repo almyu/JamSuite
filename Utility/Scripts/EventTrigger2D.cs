@@ -3,16 +3,15 @@ using UnityEngine.Events;
 
 public class EventTrigger2D : MonoBehaviour {
     
+    public LayerMask filter;
+    
     public UnityEvent onTriggerEnter;
     public UnityEvent onTriggerExit;
     public UnityEvent onTriggerStay;
     
-    public string[] tagsExcluded;
-    
     private void FilterAndInvoke(Collider2D collider, UnityEvent colliderEvent) {
-        for (int i = 0; i < tagsExcluded.Length; ++i) {
-            if (collider.gameObject.tag == tagsExcluded[i]) return;
-        }
+        int mask = 1 << collider.gameObject.layer;
+        if ((mask & filter.value) == 0) return;
         
         colliderEvent.Invoke();
     }
