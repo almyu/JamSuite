@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class EventTrigger : MonoBehaviour {
     
-    public LayerMask filter;
+    public LayerMask filter = 1; // Default
     
     public UnityEvent onTriggerEnter;
     public UnityEvent onTriggerExit;
