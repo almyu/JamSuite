@@ -9,6 +9,8 @@ public class EventTrigger2D : MonoBehaviour {
     public UnityEvent onTriggerExit;
     public UnityEvent onTriggerStay;
     
+    public string buttonName; // if empty - invoke without button
+
     private void FilterAndInvoke(Collider2D collider, UnityEvent colliderEvent) {
         int mask = 1 << collider.gameObject.layer;
         if ((mask & filter.value) == 0) return;
@@ -17,6 +19,6 @@ public class EventTrigger2D : MonoBehaviour {
     }
     
     private void OnTriggerEnter2D(Collider2D collider) { FilterAndInvoke(collider, onTriggerEnter); }
-    private void OnTriggerStay2D(Collider2D collider) { FilterAndInvoke(collider, onTriggerStay); }
+    private void OnTriggerStay2D(Collider2D collider) { if(buttonName == "" || Input.GetButtonUp(buttonName)) FilterAndInvoke(collider, onTriggerStay); }
     private void OnTriggerExit2D(Collider2D collider) { FilterAndInvoke(collider, onTriggerExit); }
 }
