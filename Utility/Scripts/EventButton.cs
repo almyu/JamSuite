@@ -5,13 +5,13 @@ public class EventButton : MonoBehaviour {
 
     public string buttonName;
 
-    public UnityEvent getButton;
-    public UnityEvent getButtonDown;
-    public UnityEvent getButtonUp;
+    public UnityEvent onButtonDown;
+    public UnityEvent onButtonStay;
+    public UnityEvent onButtonUp;
     
     private void Update () {
-        if (Input.GetButton(buttonName)) getButton.Invoke();
-        if (Input.GetButtonUp(buttonName)) getButtonUp.Invoke();
-        if (Input.GetButtonDown(buttonName)) getButtonDown.Invoke();
+        if (Input.GetButtonDown(buttonName)) onButtonDown.Invoke();
+        if (Input.GetButton(buttonName)) onButtonStay.Invoke();
+        if (Input.GetButtonUp(buttonName)) onButtonUp.Invoke();
     }
 }
