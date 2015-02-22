@@ -9,7 +9,7 @@ public class EventButton : MonoBehaviour {
     public UnityEvent onButtonStay;
     public UnityEvent onButtonUp;
     
-    private void Update () {
+    private void Update() {
         if (Input.GetButtonDown(buttonName)) onButtonDown.Invoke();
         if (Input.GetButton(buttonName)) onButtonStay.Invoke();
         if (Input.GetButtonUp(buttonName)) onButtonUp.Invoke();
