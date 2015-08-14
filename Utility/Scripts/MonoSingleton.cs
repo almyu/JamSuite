@@ -1,18 +1,24 @@
-﻿using UnityEngine;
-
-namespace UnityEngine {
+﻿namespace UnityEngine {
 
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour {
 
         public static T instance {
-            get {
-                if (!_instance)
-                    _instance = FindObjectOfType<T>();
+            get { return JamSuite.SingletonHelper<T>.instance; }
+        }
+    }
+}
 
+namespace JamSuite {
+
+    public class SingletonHelper<T> where T : UnityEngine.Object {
+
+        public static T instance {
+            get {
+                if (!_instance) _instance = UnityEngine.Object.FindObjectOfType<T>();
                 return _instance;
             }
         }
 
-        protected static T _instance;
+        private static T _instance;
     }
 }
