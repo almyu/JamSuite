@@ -4,67 +4,6 @@ using System.Collections;
 
 namespace JamSuite.UI {
 
-#if UNITY_EDITOR
-    using UnityEditor;
-
-    [CustomEditor(typeof(FloatingText))]
-    public class FloatingTextEditor : Editor {
-
-        private static bool spawning = false;
-
-        public override void OnInspectorGUI() {
-            DrawDefaultInspector();
-
-            if (Application.isPlaying) {
-                spawning = GUILayout.Toggle(spawning, "Spawn Continuously");
-
-                if (spawning || GUILayout.Button("Spawn")) {
-                    var pos = Camera.main.transform.position + Camera.main.transform.forward * 3f;
-                    (target as FloatingText).Spawn(pos, Random.Range(0, 20000));
-                }
-            }
-        }
-    }
-#endif
-
-
-    public static class FloatingTextUtility {
-
-        private static Font cachedBuiltinFont;
-
-        public static Font GetBuiltinFont() {
-            if (!cachedBuiltinFont) cachedBuiltinFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
-            return cachedBuiltinFont;
-        }
-
-        public static Gradient MakeFlatGradient(Color color) {
-            return new Gradient {
-                colorKeys = new[] { new GradientColorKey(color, 0f) },
-                alphaKeys = new[] { new GradientAlphaKey(color.a, 0f) }
-            };
-        }
-
-        public static Gradient MakeFadingGradient(float falloffStartTime = 0.8f) {
-            return new Gradient {
-                colorKeys = new[] {
-                    new GradientColorKey(Color.white, 0f)
-                },
-                alphaKeys = new[] {
-                    new GradientAlphaKey(1f, 0f),
-                    new GradientAlphaKey(1f, falloffStartTime),
-                    new GradientAlphaKey(0f, 1f)
-                }
-            };
-        }
-
-        public static AnimationCurve MakeFalloffCurve(float outTangent) {
-            return new AnimationCurve {
-                keys = new[] { new Keyframe(0f, 1f, 0f, outTangent), new Keyframe(1f, 0f, 0f, 0f) }
-            };
-        }
-    }
-
-
     [RequireComponent(typeof(RectTransform))]
     public class FloatingText : MonoSingleton<FloatingText> {
 
@@ -182,4 +121,63 @@ namespace JamSuite.UI {
             Destroy(xf.gameObject);
         }
     }
+
+
+    public static class FloatingTextUtility {
+
+        private static Font cachedBuiltinFont;
+
+        public static Font GetBuiltinFont() {
+            if (!cachedBuiltinFont) cachedBuiltinFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            return cachedBuiltinFont;
+        }
+
+        public static Gradient MakeFlatGradient(Color color) {
+            return new Gradient {
+                colorKeys = new[] { new GradientColorKey(color, 0f) },
+                alphaKeys = new[] { new GradientAlphaKey(color.a, 0f) }
+            };
+        }
+
+        public static Gradient MakeFadingGradient(float falloffStartTime = 0.8f) {
+            return new Gradient {
+                colorKeys = new[] {
+                    new GradientColorKey(Color.white, 0f)
+                },
+                alphaKeys = new[] {
+                    new GradientAlphaKey(1f, 0f),
+                    new GradientAlphaKey(1f, falloffStartTime),
+                    new GradientAlphaKey(0f, 1f)
+                }
+            };
+        }
+
+        public static AnimationCurve MakeFalloffCurve(float outTangent) {
+            return new AnimationCurve {
+                keys = new[] { new Keyframe(0f, 1f, 0f, outTangent), new Keyframe(1f, 0f, 0f, 0f) }
+            };
+        }
+    }
+
+
+#if UNITY_EDITOR
+    [UnityEditor.CustomEditor(typeof(FloatingText))]
+    public class FloatingTextEditor : UnityEditor.Editor {
+
+        private static bool spawning = false;
+
+        public override void OnInspectorGUI() {
+            DrawDefaultInspector();
+
+            if (Application.isPlaying) {
+                spawning = GUILayout.Toggle(spawning, "Spawn Continuously");
+
+                if (spawning || GUILayout.Button("Spawn")) {
+                    var pos = Camera.main.transform.position + Camera.main.transform.forward * 3f;
+                    (target as FloatingText).Spawn(pos, Random.Range(0, 20000));
+                }
+            }
+        }
+    }
+#endif
 }
