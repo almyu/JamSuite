@@ -12,14 +12,14 @@ namespace JamSuite {
             var ed = new TextEditor();
             ed.Paste();
 
-            return ed.content.text;
+            return ed.text;
         }
 
         public static void SetText(string text) {
             if (string.IsNullOrEmpty(text)) return;
 
             var ed = new TextEditor();
-            ed.content = new GUIContent(text);
+            ed.text = text;
             ed.SelectAll();
             ed.Copy();
         }
