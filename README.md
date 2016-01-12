@@ -1,4 +1,4 @@
 JamSuite
 ========
 
-Cool unity stuff for people who like to make games. Enjoy!
+A handful of somewhat useful, undocumented, backward incompatible beerware.
