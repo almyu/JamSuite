@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -15,7 +16,7 @@ public class InterstageFade : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         yield return StartCoroutine(DoAnimate(inTransition));
 
-        Application.LoadLevel(level);
+        SceneManager.LoadScene(level);
         yield return StartCoroutine(DoAnimate(outTransition));
 
         Destroy(gameObject);
