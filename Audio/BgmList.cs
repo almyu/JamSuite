@@ -16,6 +16,7 @@ namespace JamSuite.Audio {
         }
     }
 
+    [CreateAssetMenu(order = 220)]
     public class BgmList : ScriptableObject {
 
         public bool reserveMissing = true;
@@ -34,13 +35,5 @@ namespace JamSuite.Audio {
 
             return newPlaylist;
         }
-
-
-#if UNITY_EDITOR
-        [UnityEditor.MenuItem("Assets/Create/Bgm List", priority = 220)]
-        public static void Create() {
-            AssetUtility.CreateAssetInSelectedDirectory(CreateInstance<BgmList>(), "BgmList");
-        }
-#endif
     }
 }

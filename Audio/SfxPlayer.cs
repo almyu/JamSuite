@@ -28,18 +28,32 @@ namespace JamSuite.Audio {
         }
 
         public void Play(string clipName, float volumeScale) {
+            var clip = TryPlaying(clipName);
+            if (clip) source.PlayOneShot(clip, volumeScale);
+        }
+
+        public void Play(string clipName, Vector3 position) {
+            Play(clipName, position, 1f);
+        }
+
+        public void Play(string clipName, Vector3 position, float volumeScale) {
+            var clip = TryPlaying(clipName);
+            if (clip) AudioSource.PlayClipAtPoint(clip, position, source.volume * volumeScale);
+        }
+
+        private AudioClip TryPlaying(string clipName) {
             var clip = list.LookupClip(clipName);
-            if (!clip) return;
+            if (!clip) return null;
 
             var lastPlay = 0f;
             var everPlayed = lastPlays.TryGetValue(clip, out lastPlay);
 
-            if (lastPlay + throttle > Time.timeSinceLevelLoad) return;
+            if (lastPlay + throttle > Time.timeSinceLevelLoad) return null;
 
             if (everPlayed) lastPlays[clip] = Time.timeSinceLevelLoad;
             else lastPlays.Add(clip, Time.timeSinceLevelLoad);
 
-            source.PlayOneShot(clip, volumeScale);
+            return clip;
         }
     }
 }

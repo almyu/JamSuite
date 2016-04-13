@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace JamSuite.Audio {
 
+    [CreateAssetMenu(order = 220)]
     public class SfxList : ScriptableObject {
 
         [System.Serializable]
@@ -25,13 +26,5 @@ namespace JamSuite.Audio {
 
             return null;
         }
-
-
-#if UNITY_EDITOR
-        [UnityEditor.MenuItem("Assets/Create/Sfx List", priority = 220)]
-        public static void Create() {
-            AssetUtility.CreateAssetInSelectedDirectory(CreateInstance<SfxList>(), "SfxList");
-        }
-#endif
     }
 }
