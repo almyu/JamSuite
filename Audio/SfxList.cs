@@ -9,21 +9,32 @@ namespace JamSuite.Audio {
         [System.Serializable]
         public class ClipBinding {
             public string name;
-            public AudioClip clip;
+
+            [Range(0f, 4f)]
+            public float volumeScale = 1f;
+
+            public AudioClip[] variants;
+
+            [System.NonSerialized]
+            public float lastPlay;
         }
 
         public bool reserveMissing = true;
         public List<ClipBinding> clips;
 
 
-        public AudioClip LookupClip(string name) {
+        public ClipBinding Lookup(string name) {
             foreach (var binding in clips)
                 if (binding.name == name)
-                    return binding.clip;
+                    return binding;
 
-            if (reserveMissing)
+            if (reserveMissing) {
                 clips.Add(new ClipBinding { name = name });
 
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            }
             return null;
         }
     }
