@@ -1,8 +1,8 @@
 ﻿//#define DEBUG_KEEPER
 
-using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 
 namespace JamSuite.Editor {
 

@@ -1,7 +1,7 @@
 ﻿// #define DEBUG_BGM
 
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace JamSuite.Audio {
 
