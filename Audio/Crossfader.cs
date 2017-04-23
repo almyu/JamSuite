@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace JamSuite.Audio {
-
+namespace JamSuite.Audio
+{
     [RequireComponent(typeof(AudioSource))]
-    public class Crossfader : MonoBehaviour {
-
+    public class Crossfader : MonoBehaviour
+    {
         public const float defaultDuration = 1f;
         public static readonly AnimationCurve defaultShape = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
@@ -96,8 +96,8 @@ namespace JamSuite.Audio {
     }
 
 
-    public static class AudioSourceExt {
-
+    public static class AudioSourceExt
+    {
         public static Crossfader Crossfade(this AudioSource from, AudioSource to) {
             return Crossfade(from, to, Crossfader.defaultDuration, Crossfader.defaultShape);
         }
@@ -138,8 +138,8 @@ namespace JamSuite.Audio {
     }
 
 
-    public static class CrossfadeUtility {
-
+    public static class CrossfadeUtility
+    {
         public static void CopyAudioSourceProperties(AudioSource from, AudioSource to, bool thoroughly = true) {
             if (thoroughly) {
                 to.bypassEffects = from.bypassEffects;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace JamSuite.Audio {
-
-    public class Sfx : MonoBehaviour {
-
+namespace JamSuite.Audio
+{
+    public class Sfx : MonoBehaviour
+    {
         public static void Play(string clipName, float volumeScale = 1f) {
             var player = SfxPlayer.instance;
             if (player) player.Play(clipName, volumeScale);
@@ -15,7 +15,8 @@ namespace JamSuite.Audio {
         }
 
 
-        public enum Mode {
+        public enum Mode
+        {
             OnAwake,
             OnStart,
             OnEnable

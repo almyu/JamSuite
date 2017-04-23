@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿/// Version: 2017-03-23
 
-namespace JamSuite.Generative {
+using UnityEngine;
 
-    public enum HierarchyRebuildMode {
+namespace JamSuite.Generative
+{
+    public enum HierarchyRebuildMode
+    {
         Manual = 0,
         Awake = 1,
         EditorUpdate = 2,
@@ -11,18 +14,25 @@ namespace JamSuite.Generative {
     }
 
     [ExecuteInEditMode]
-    public abstract class HierarchyBuilder<T> : MonoBehaviour {
+    public abstract class HierarchyBuilder<T> : HierarchyBuilder<Transform, T> {}
 
-        public Transform template;
+    [ExecuteInEditMode]
+    public abstract class HierarchyBuilder<Template, Data> : MonoBehaviour
+    where Template : Component
+    {
+        public Template template;
         public HierarchyRebuildMode rebuildMode = HierarchyRebuildMode.Awake;
 
-        protected Transform parent, lastSpawn;
+        protected Transform parent;
+        protected Template lastSpawn;
 
 
+        [ContextMenu("Rebuild")]
         public void Rebuild() {
             for (int i = transform.childCount; i-- > 0; ) {
                 var child = transform.GetChild(i);
-                if (child != template) DestroyImmediate(child.gameObject);
+                if (child != template.transform)
+                    DestroyImmediate(child.gameObject);
             }
             Build();
         }
@@ -30,19 +40,19 @@ namespace JamSuite.Generative {
 
         protected abstract void Build();
 
-        protected virtual void Tune(Transform spawn, T data) {}
+        protected virtual void Tune(Template spawn, Data data) {}
 
 
-        protected Transform Spawn(T data) {
+        protected Template Spawn(Data data) {
             lastSpawn = Instantiate(template);
-            lastSpawn.SetParent(parent ? parent : transform, false);
+            lastSpawn.transform.SetParent(parent ? parent : transform, false);
             Tune(lastSpawn, data);
             lastSpawn.gameObject.SetActive(true);
             return lastSpawn;
         }
 
         protected void Descend() {
-            parent = lastSpawn;
+            parent = lastSpawn ? lastSpawn.transform : null;
         }
 
         protected void Ascend() {
@@ -69,7 +79,7 @@ namespace JamSuite.Generative {
         }
 
         protected virtual void Reset() {
-            if (!template) template = transform.Find("Template");
+            if (!template) template = GetComponentInChildren<Template>(true);
         }
     }
 }

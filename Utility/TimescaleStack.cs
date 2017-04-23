@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class TimescaleStack {
-
+public static class TimescaleStack
+{
     private static Stack<float> stack = new Stack<float>();
 
     public static void Push(float scale) {

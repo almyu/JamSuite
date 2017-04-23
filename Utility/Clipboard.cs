@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace JamSuite {
-
-    public static class Clipboard {
-
+namespace JamSuite
+{
+    public static class Clipboard
+    {
         public static bool ContainsText() {
             return new TextEditor().CanPaste();
         }

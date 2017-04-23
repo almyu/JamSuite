@@ -1,9 +1,11 @@
-﻿using System;
+﻿/// Version: 2017-03-23
+
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace JamSuite.Events {
-
+namespace JamSuite.Events
+{
     [Serializable] public class BoolEvent : UnityEvent<bool> {}
     [Serializable] public class IntEvent : UnityEvent<int> {}
     [Serializable] public class FloatEvent : UnityEvent<float> {}
@@ -12,4 +14,5 @@ namespace JamSuite.Events {
     [Serializable] public class Vector4Event : UnityEvent<Vector4> {}
     [Serializable] public class RectEvent : UnityEvent<Rect> {}
     [Serializable] public class StringEvent : UnityEvent<string> {}
+    [Serializable] public class GameObjectEvent : UnityEvent<GameObject> {}
 }

@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JamSuite.Audio {
-
+namespace JamSuite.Audio
+{
     [RequireComponent(typeof(AudioSource))]
-    public class BgmPlayer : MonoSingleton<BgmPlayer> {
-
+    public class BgmPlayer : MonoSingleton<BgmPlayer>
+    {
         public float crossfadeTime = 1f;
         public AnimationCurve crossfadeShape = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
@@ -15,7 +15,8 @@ namespace JamSuite.Audio {
 
         private AudioSource source;
 
-        private class Snapshot {
+        private class Snapshot
+        {
             public AudioClip track;
             public float trackTime;
         }

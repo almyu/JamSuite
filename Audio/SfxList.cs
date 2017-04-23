@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿/// Version: 2017-03-30
+
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace JamSuite.Audio {
-
+namespace JamSuite.Audio
+{
     [CreateAssetMenu(order = 220)]
-    public class SfxList : ScriptableObject {
-
+    public class SfxList : ScriptableObject
+    {
         [System.Serializable]
-        public class ClipBinding {
+        public class ClipBinding
+        {
             public string name;
 
             [Range(0f, 4f)]
@@ -29,7 +32,7 @@ namespace JamSuite.Audio {
                     return binding;
 
             if (reserveMissing) {
-                clips.Add(new ClipBinding { name = name });
+                clips.Add(new ClipBinding { name = name, variants = new AudioClip[0] });
 
 #if UNITY_EDITOR
                 UnityEditor.EditorUtility.SetDirty(this);

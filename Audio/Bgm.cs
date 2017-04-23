@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace JamSuite.Audio {
-
-    public class Bgm : MonoBehaviour {
-
+namespace JamSuite.Audio
+{
+    public class Bgm : MonoBehaviour
+    {
         public static void PushPlaylist(string playlistName) {
             var player = BgmPlayer.instance;
             if (player) player.PushPlaylist(playlistName);

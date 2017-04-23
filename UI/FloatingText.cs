@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JamSuite.UI {
-
+namespace JamSuite.UI
+{
     [RequireComponent(typeof(RectTransform))]
-    public class FloatingText : MonoSingleton<FloatingText> {
-
+    public class FloatingText : MonoSingleton<FloatingText>
+    {
         public RectTransform template;
 
         public Vector2 minMaxValue = new Vector2(0, 1000);
@@ -34,11 +34,11 @@ namespace JamSuite.UI {
 
 
 
-        public void Spawn(Vector3 worldPos, int value) {
-            Spawn(worldPos, "{0}", value);
+        public GameObject Spawn(Vector3 worldPos, int value) {
+            return Spawn(worldPos, "{0}", value);
         }
 
-        public void Spawn(Vector3 worldPos, string format, int value) {
+        public GameObject Spawn(Vector3 worldPos, string format, int value) {
             var obj = Instantiate();
             obj.SetActive(true);
 
@@ -48,6 +48,8 @@ namespace JamSuite.UI {
             TuneTransform(xf, WorldToScreenPoint(worldPos));
             TuneText(text, format, value);
             StartCoroutine(Animate(worldPos, xf, text));
+
+            return obj;
         }
 
 
@@ -123,8 +125,8 @@ namespace JamSuite.UI {
     }
 
 
-    public static class FloatingTextUtility {
-
+    public static class FloatingTextUtility
+    {
         private static Font cachedBuiltinFont;
 
         public static Font GetBuiltinFont() {
@@ -162,8 +164,8 @@ namespace JamSuite.UI {
 
 #if UNITY_EDITOR
     [UnityEditor.CustomEditor(typeof(FloatingText))]
-    public class FloatingTextEditor : UnityEditor.Editor {
-
+    public class FloatingTextEditor : UnityEditor.Editor
+    {
         private static bool spawning = false;
 
         public override void OnInspectorGUI() {

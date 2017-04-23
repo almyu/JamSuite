@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace JamSuite.Audio {
-
+namespace JamSuite.Audio
+{
     [System.Serializable]
-    public class Playlist {
+    public class Playlist
+    {
         public string name;
         //public bool shuffle = true;
         public List<AudioClip> tracks = new List<AudioClip>();
@@ -17,11 +18,10 @@ namespace JamSuite.Audio {
     }
 
     [CreateAssetMenu(order = 220)]
-    public class BgmList : ScriptableObject {
-
+    public class BgmList : ScriptableObject
+    {
         public bool reserveMissing = true;
         public List<Playlist> playlists;
-
 
         public Playlist LookupPlaylist(string name) {
             foreach (var playlist in playlists)
