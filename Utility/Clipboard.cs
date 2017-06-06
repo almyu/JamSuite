@@ -1,27 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace JamSuite
 {
     public static class Clipboard
     {
+        [Obsolete("Use GUIUtility.systemCopyBuffer")]
         public static bool ContainsText() {
-            return new TextEditor().CanPaste();
+            return GUIUtility.systemCopyBuffer.Length != 0;
         }
 
+        [Obsolete("Use GUIUtility.systemCopyBuffer")]
         public static string GetText() {
-            var ed = new TextEditor();
-            ed.Paste();
-
-            return ed.text;
+            return GUIUtility.systemCopyBuffer;
         }
 
+        [Obsolete("Use GUIUtility.systemCopyBuffer")]
         public static void SetText(string text) {
-            if (string.IsNullOrEmpty(text)) return;
-
-            var ed = new TextEditor();
-            ed.text = text;
-            ed.SelectAll();
-            ed.Copy();
+            GUIUtility.systemCopyBuffer = text ?? "";
         }
     }
 }
