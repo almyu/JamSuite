@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/// Version: 2017-04-25
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace JamSuite
 {
@@ -8,6 +14,18 @@ namespace JamSuite
     {
         public static T Roll<T>(this IList<T> list) {
             return list.Count != 0 ? list[Random.Range(0, list.Count)] : default(T);
+        }
+
+        public static T Roll<T>(this IEnumerable<T> seq, Func<T, float> weightSelector) {
+            var roll = Random.value * seq.Sum(weightSelector);
+
+            foreach (var e in seq) {
+                var weight = weightSelector(e);
+                if (weight > roll) return e;
+
+                roll -= weight;
+            }
+            return default(T);
         }
 
         public static void Shuffle<T>(this IList<T> list) {
@@ -34,8 +52,8 @@ namespace JamSuite
 
         public static T FindByName<T>(this IEnumerable<T> seq, string name, bool ignoreCase = false) where T : Object {
             var cmp = ignoreCase
-                ? System.StringComparison.InvariantCultureIgnoreCase
-                : System.StringComparison.InvariantCulture;
+                ? StringComparison.InvariantCultureIgnoreCase
+                : StringComparison.InvariantCulture;
 
             foreach (var obj in seq)
                 if (obj && obj.name.Equals(name, cmp))
@@ -59,15 +77,14 @@ namespace JamSuite
         }
 
         public static string ToString<T>(this IEnumerable<T> seq, string separator, string prefix = "", string suffix = "") {
-            var str = new StringBuilder(prefix);
-            var first = true;
+            var it = seq.GetEnumerator();
+            if (!it.MoveNext()) return prefix + suffix;
 
-            foreach (var e in seq) {
-                if (first) first = false;
-                else str.Append(separator);
+            var str = new StringBuilder(prefix).Append(it.Current);
 
-                str.Append(e);
-            }
+            while (it.MoveNext())
+                str.Append(separator).Append(it.Current);
+
             return str.Append(suffix).ToString();
         }
     }
