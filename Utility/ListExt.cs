@@ -1,4 +1,4 @@
-﻿/// Version: 2017-04-25
+﻿/// Version: 2017-07-28
 
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,13 @@ namespace JamSuite
             return default(T);
         }
 
+        public static void Sort<T, Key>(this T[] list, Func<T, Key> keySelector) where Key : IComparable<Key> {
+            Array.Sort(list, (a, b) => keySelector(b).CompareTo(keySelector(a)));
+        } 
+        public static void Sort<T, Key>(this List<T> list, Func<T, Key> keySelector) where Key : IComparable<Key> {
+            list.Sort((a, b) => keySelector(b).CompareTo(keySelector(a)));
+        }
+
         public static void Shuffle<T>(this IList<T> list) {
             for (int i = list.Count; --i > 0; ) {
                 var randomIndex = Random.Range(0, i + 1);
@@ -35,6 +42,21 @@ namespace JamSuite
                 list[i] = list[randomIndex];
                 list[randomIndex] = tmp;
             }
+        }
+
+        public static bool AddUnique<T>(this IList<T> list, T value) {
+            if (list.Contains(value)) return false;
+
+            list.Add(value);
+            return true;
+        }
+
+        public static T RemoveLast<T>(this IList<T> list) {
+            var lastIndex = list.Count - 1;
+            var value = list[lastIndex];
+
+            list.RemoveAt(lastIndex);
+            return value;
         }
 
         public static void SwapRemoveAt<T>(this IList<T> list, int index) {
@@ -62,18 +84,26 @@ namespace JamSuite
             return null;
         }
 
-        public static T FindClosest<T>(this IEnumerable<T> seq, Vector3 point) where T : Component {
-            var closest = default(T);
-            var minDistSq = float.MaxValue;
+        public static T FindBest<T>(this IEnumerable<T> seq, Func<T, float> qualitySelector) {
+            var best = default(T);
+            var bestQuality = float.MinValue;
 
             foreach (var e in seq) {
-                var distSq = (point - e.transform.position).sqrMagnitude;
-                if (distSq > minDistSq) continue;
+                var quality = qualitySelector(e);
+                if (quality <= bestQuality) continue;
 
-                minDistSq = distSq;
-                closest = e;
+                bestQuality = quality;
+                best = e;
             }
-            return closest;
+            return best;
+        }
+
+        public static T FindWorst<T>(this IEnumerable<T> seq, Func<T, float> qualitySelector) {
+            return FindBest(seq, e => -qualitySelector(e));
+        }
+
+        public static T FindClosest<T>(this IEnumerable<T> seq, Vector3 point) where T : Component {
+            return FindBest(seq, e => -(point - e.transform.position).sqrMagnitude);
         }
 
         public static string ToString<T>(this IEnumerable<T> seq, string separator, string prefix = "", string suffix = "") {
