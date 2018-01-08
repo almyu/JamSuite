@@ -1,4 +1,4 @@
-﻿/// Version: 2017-03-23
+﻿/// Version: 2018-01-08
 
 using UnityEngine;
 
@@ -23,16 +23,16 @@ namespace JamSuite.Generative
         public Template template;
         public HierarchyRebuildMode rebuildMode = HierarchyRebuildMode.Awake;
 
-        protected Transform parent;
+        protected Transform root, parent;
         protected Template lastSpawn;
 
 
-        [ContextMenu("Rebuild")]
-        public void Rebuild() {
-            for (int i = transform.childCount; i-- > 0; ) {
-                var child = transform.GetChild(i);
-                if (child != template.transform)
-                    DestroyImmediate(child.gameObject);
+        public virtual void Rebuild() {
+            for (int i = root.childCount; i-- > 0; ) {
+                var child = root.GetChild(i);
+                if (child == template.transform) break;
+
+                DestroyImmediate(child.gameObject);
             }
             Build();
         }
@@ -45,7 +45,7 @@ namespace JamSuite.Generative
 
         protected Template Spawn(Data data) {
             lastSpawn = Instantiate(template);
-            lastSpawn.transform.SetParent(parent ? parent : transform, false);
+            lastSpawn.transform.SetParent(parent ? parent : root, false);
             Tune(lastSpawn, data);
             lastSpawn.gameObject.SetActive(true);
             return lastSpawn;
@@ -56,8 +56,8 @@ namespace JamSuite.Generative
         }
 
         protected void Ascend() {
-            if (parent != transform)
-                parent = parent ? parent.parent : transform;
+            if (parent != root)
+                parent = parent ? parent.parent : root;
         }
 
         protected void AscendToTop() {
@@ -66,7 +66,13 @@ namespace JamSuite.Generative
 
 
         protected virtual void Awake() {
+            root = template ? template.transform.parent : transform;
+
             if (!Application.isPlaying) return;
+
+            if (template.gameObject.activeSelf)
+                template.gameObject.SetActive(false);
+
             if ((rebuildMode & HierarchyRebuildMode.Awake) != 0) Rebuild();
         }
 
