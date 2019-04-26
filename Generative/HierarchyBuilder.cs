@@ -1,5 +1,6 @@
-﻿/// Version: 2018-01-08
+﻿/// Version: 2018-01-14
 
+using System;
 using UnityEngine;
 
 namespace JamSuite.Generative
@@ -14,12 +15,11 @@ namespace JamSuite.Generative
     }
 
     [ExecuteInEditMode]
-    public abstract class HierarchyBuilder<T> : HierarchyBuilder<Transform, T> {}
-
-    [ExecuteInEditMode]
-    public abstract class HierarchyBuilder<Template, Data> : MonoBehaviour
+    public abstract class HierarchyBuilder<Template> : MonoBehaviour
     where Template : Component
     {
+        public delegate void TuneDelegate(Template spawn);
+
         public Template template;
         public HierarchyRebuildMode rebuildMode = HierarchyRebuildMode.Awake;
 
@@ -28,6 +28,8 @@ namespace JamSuite.Generative
 
 
         public virtual void Rebuild() {
+            if (!root) FindRoot();
+
             for (int i = root.childCount; i-- > 0; ) {
                 var child = root.GetChild(i);
                 if (child == template.transform) break;
@@ -37,16 +39,13 @@ namespace JamSuite.Generative
             Build();
         }
 
-
         protected abstract void Build();
 
-        protected virtual void Tune(Template spawn, Data data) {}
 
-
-        protected Template Spawn(Data data) {
+        protected Template Spawn(TuneDelegate tune = null) {
             lastSpawn = Instantiate(template);
             lastSpawn.transform.SetParent(parent ? parent : root, false);
-            Tune(lastSpawn, data);
+            if (tune != null) tune(lastSpawn);
             lastSpawn.gameObject.SetActive(true);
             return lastSpawn;
         }
@@ -65,8 +64,12 @@ namespace JamSuite.Generative
         }
 
 
-        protected virtual void Awake() {
+        void FindRoot() {
             root = template ? template.transform.parent : transform;
+        }
+
+        protected virtual void Awake() {
+            FindRoot();
 
             if (!Application.isPlaying) return;
 
